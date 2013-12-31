@@ -1,0 +1,49 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns,http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<key attr.name="color" attr.type="string" for="node" id="color"/>
+<key attr.name="x" attr.type="integer" for="node" id="x"/>
+<key attr.name="y" attr.type="integer" for="node" id="y"/>
+<key attr.name="z" attr.type="integer" for="node" id="z"/>
+<graph edgedefault="undirected" id="graph">
+<node id="n0">
+<data key="color">green</data>
+<data key="x">-49</data>
+<data key="y">-24</data>
+<data key="z">0</data>
+</node>
+<node id="n1">
+<data key="x">-11</data>
+<data key="y">-53</data>
+<data key="z">0</data>
+</node>
+<node id="n2">
+<data key="color">blue</data>
+<data key="x">-15</data>
+<data key="y">10</data>
+<data key="z">0</data>
+</node>
+<node id="n3">
+<data key="color">red</data>
+<data key="x">22</data>
+<data key="y">-17</data>
+<data key="z">0</data>
+</node>
+<node id="n4">
+<data key="x">6</data>
+<data key="y">55</data>
+<data key="z">0</data>
+</node>
+<node id="n5">
+<data key="color">turquoise</data>
+<data key="x">43</data>
+<data key="y">26</data>
+<data key="z">0</data>
+</node>
+<edge source="n0" target="n2"/>
+<edge source="n0" target="n1"/>
+<edge source="n1" target="n3"/>
+<edge source="n3" target="n2"/>
+<edge source="n2" target="n4"/>
+<edge source="n3" target="n5"/>
+<edge source="n5" target="n4"/>
+</graph>
+</graphml>

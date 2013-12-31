@@ -1,0 +1,1 @@
+start java -cp bin;. main -view focus -edgefile "C:\Users\rajin\Dropbox\Shared\SMI\GraphViewer\EyeTrack\edge_node_list\data1_text\EdgeList.txt" -positionfile "C:\Users\rajin\Dropbox\Shared\SMI\GraphViewer\EyeTrack\edge_node_list\data1_text\VertexList.txt"
