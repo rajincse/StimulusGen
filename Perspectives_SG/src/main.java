@@ -32,6 +32,7 @@ import util.ImageTilerFactory;
 import data.*;
 import eyetrack.shapematch.ShapeViewerFactory;
 import eyetrack.shapematch.task.ShapeTaskViewerFactory;
+import eyetrack.stimulusgen.StimulusGenViewerFactory;
 
 
 public class main {
@@ -41,36 +42,38 @@ public class main {
 		  Environment e = new Environment(false);
 	    
 	       
-	      e.registerDataSourceFactory(new GraphDataFactory());
-	     e.registerDataSourceFactory(new TableDataFactory());
-	       
-	      e.registerViewerFactory(new RadialBrainConnectivityViewerFactory());
-	      
-	     e.registerViewerFactory(new PlanarProjectionViewerFactory());
-	      
-	      e.registerViewerFactory(new HierarchicalClusteringViewerFactory());
-	      
+//	      e.registerDataSourceFactory(new GraphDataFactory());
+//	     e.registerDataSourceFactory(new TableDataFactory());
+//	       
+//	      e.registerViewerFactory(new RadialBrainConnectivityViewerFactory());
+//	      
+//	     e.registerViewerFactory(new PlanarProjectionViewerFactory());
+//	      
+//	      e.registerViewerFactory(new HierarchicalClusteringViewerFactory());
+//	      
 	      e.registerViewerFactory(new GraphViewerFactory());
 	      
 	      e.registerViewerFactory(new ViewFocusGraphViewerFactory());
 	      
-	      e.registerViewerFactory(new ImageTilerFactory());
-	      
-	      e.registerViewerFactory(new HotspotsFactory());
-	      
-	      e.registerViewerFactory(new ParallelCoordinateViewerFactory());
-	      
-	      e.registerViewerFactory(new LineSetGraphFactory());
-	      
-	      e.registerViewerFactory(new BubbleSetGraphFactory());
-	      
-	      e.registerViewerFactory(new EyeCatcherFactory());
-	      
-	      e.registerViewerFactory(new EyeExperimentFactory());
+//	      e.registerViewerFactory(new ImageTilerFactory());
+//	      
+//	      e.registerViewerFactory(new HotspotsFactory());
+//	      
+//	      e.registerViewerFactory(new ParallelCoordinateViewerFactory());
+//	      
+//	      e.registerViewerFactory(new LineSetGraphFactory());
+//	      
+//	      e.registerViewerFactory(new BubbleSetGraphFactory());
+//	      
+//	      e.registerViewerFactory(new EyeCatcherFactory());
+//	      
+//	      e.registerViewerFactory(new EyeExperimentFactory());
 	      
 	      e.registerViewerFactory(new ShapeViewerFactory());
 	      
 	      e.registerViewerFactory(new ShapeTaskViewerFactory());
+	      
+	      e.registerViewerFactory(new StimulusGenViewerFactory());
 	      
 	      if(args.length == 6 && args[0].equalsIgnoreCase("-view") && args[2].equalsIgnoreCase("-edgefile") && args[4].equalsIgnoreCase("-positionfile"))
 	      {
