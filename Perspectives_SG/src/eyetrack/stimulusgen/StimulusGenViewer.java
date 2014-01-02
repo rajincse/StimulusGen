@@ -2,6 +2,11 @@ package eyetrack.stimulusgen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+
+import eyetrack.shapematch.AbstractBoundedShape;
+import eyetrack.shapematch.AbstractShape;
+import eyetrack.shapematch.OvalShape;
 
 import perspectives.Property;
 import perspectives.Viewer2D;
@@ -17,12 +22,20 @@ public class StimulusGenViewer extends Viewer2D{
 	public static final String PROPERTY_NAME_BACKGROUND_COLOR = "BackgroundColor";
 	public static final String PROPERTY_NAME_OBJECT_COUNT = "Object Count";
 	
-	
+	private ArrayList<AbstractBoundedShape> shapeList;
 	
 	
 	public StimulusGenViewer(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
+		this.loadProperties();
+		
+		this.shapeList = new ArrayList<AbstractBoundedShape>();
+		init();
+	}
+	
+	private void loadProperties()
+	{
 		try {
 			Property<IntegerPropertyType> minDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_MIN_DISTANCE);
 			minDistance.setValue(new IntegerPropertyType(50));
@@ -53,12 +66,36 @@ public class StimulusGenViewer extends Viewer2D{
 			e.printStackTrace();
 		}
 	}
+	
+	private int getPropertyIntValue(String name)
+	{
+		Property<IntegerPropertyType> prop = this.getProperty(name);
+		return prop.getValue().intValue();
+	}
+	private Color getPropertyColorValue(String name)
+	{
+		Property<ColorPropertyType> prop = this.getProperty(name);
+		return prop.getValue().colorValue();
+	}
+	private void init()
+	{
+		int minDist = this.getPropertyIntValue(PROPERTY_NAME_MIN_DISTANCE);
+		int maxDist = this.getPropertyIntValue(PROPERTY_NAME_MAX_DISTANCE);
+		int size = this.getPropertyIntValue(PROPERTY_NAME_SIZE);
+		Color color  = this.getPropertyColorValue(PROPERTY_NAME_FORECOLOR);
+		int objectCount = this.getPropertyIntValue(PROPERTY_NAME_OBJECT_COUNT);
+		
+		this.shapeList.clear();
+		for(int i=0;i<objectCount;i++)
+		{
+			OvalShape circle = new OvalShape(0, 0, size, size, color, true);
+			this.shapeList.add(circle);
+		}
+		
+	}
 	public <T extends perspectives.PropertyType> void propertyUpdated(Property p, T newvalue)
 	{
-		if (p.getName().equals(PROPERTY_NAME_BACKGROUND_COLOR))
-		{
-			
-		}
+		init();
 	}
 	@Override
 	public Color backgroundColor() {
@@ -70,7 +107,10 @@ public class StimulusGenViewer extends Viewer2D{
 	@Override
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
-		
+		for(AbstractBoundedShape shape:this.shapeList)
+		{
+			shape.render(g);
+		}
 	}
 
 	@Override
