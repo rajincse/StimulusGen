@@ -103,5 +103,9 @@ public abstract class AbstractBoundedShape extends AbstractFillableShape{
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+	@Override
+	public String toString() {
+
+		return "X= "+this.x+", Y="+this.y+", w="+this.width+", h="+this.height;
+	}
 }

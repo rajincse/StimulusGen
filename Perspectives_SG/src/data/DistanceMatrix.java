@@ -11,9 +11,9 @@ public class DistanceMatrix implements DistancedPoints {
 	
 	public DistanceMatrix(int nrElem)
 	{
-		distances = new float[nrElem][];
-		for (int i=1; i<distances.length; i++)
-			distances[i] = new float[i];
+		distances = new float[nrElem][nrElem];
+//		for (int i=1; i<distances.length; i++)
+//			distances[i] = new float[i];
 		
 		ids = new String[nrElem];
 

@@ -38,11 +38,11 @@ public class StimulusGenViewer extends Viewer2D{
 	{
 		try {
 			Property<IntegerPropertyType> minDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_MIN_DISTANCE);
-			minDistance.setValue(new IntegerPropertyType(50));
+			minDistance.setValue(new IntegerPropertyType(10));
 			this.addProperty(minDistance);
 			
 			Property<IntegerPropertyType> maxDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_MAX_DISTANCE);
-			maxDistance.setValue(new IntegerPropertyType(500));
+			maxDistance.setValue(new IntegerPropertyType(20));
 			this.addProperty(maxDistance);
 			
 			Property<IntegerPropertyType> size = new Property<IntegerPropertyType>(PROPERTY_NAME_SIZE);
@@ -84,14 +84,21 @@ public class StimulusGenViewer extends Viewer2D{
 		int size = this.getPropertyIntValue(PROPERTY_NAME_SIZE);
 		Color color  = this.getPropertyColorValue(PROPERTY_NAME_FORECOLOR);
 		int objectCount = this.getPropertyIntValue(PROPERTY_NAME_OBJECT_COUNT);
-		
+		MDSPlotter plotter = this.getPlotter(objectCount, minDist, maxDist);
 		this.shapeList.clear();
 		for(int i=0;i<objectCount;i++)
 		{
-			OvalShape circle = new OvalShape(0, 0, size, size, color, true);
+			int x = (int)plotter.getEmbedder().getX(i)*60;
+			int y = (int)plotter.getEmbedder().getY(i)*60;
+			OvalShape circle = new OvalShape(x, y, size, size, color, true);
 			this.shapeList.add(circle);
 		}
 		
+	}
+	private MDSPlotter getPlotter(int objectCount, int minDistance, int maxDistance)
+	{
+		MDSPlotter plotter = new MDSPlotter(objectCount, minDistance, maxDistance);
+		return plotter;
 	}
 	public <T extends perspectives.PropertyType> void propertyUpdated(Property p, T newvalue)
 	{
