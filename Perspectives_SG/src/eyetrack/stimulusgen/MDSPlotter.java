@@ -1,14 +1,13 @@
 package eyetrack.stimulusgen;
 
+import java.awt.Point;
 import java.util.Random;
 
 import multidimensional.Embedder2D;
 import multidimensional.MDSEmbedder;
-import multidimensional.SpringEmbedder;
-
 import data.DistanceMatrix;
 
-public class MDSPlotter {
+public class MDSPlotter extends StimulusGenPlotter {
 	private int objectCount;
 	private int maxDistance;
 	private int minDistance;
@@ -17,9 +16,7 @@ public class MDSPlotter {
 	private MDSEmbedder embedder;
 	public MDSPlotter( int objectCount, int minDistance  ,int maxDistance)
 	{
-		this.objectCount = objectCount;
-		this.maxDistance = maxDistance;
-		this.minDistance = minDistance;
+		super(objectCount, minDistance, maxDistance);
 		this.distanceMatrix = new DistanceMatrix(objectCount);
 		
 		this.init();
@@ -49,14 +46,7 @@ public class MDSPlotter {
 			}
 		}
 	}
-	private void simulate()
-	{
-		int kMax =1000;
-		for(int i=0;i<kMax;i++)
-		{
-			this.embedder.iteration();
-		}
-	}
+	
 	public Embedder2D getEmbedder()
 	{
 		return this.embedder;
@@ -77,6 +67,23 @@ public class MDSPlotter {
 	{
 		MDSPlotter mds = new MDSPlotter(10, 10, 20);
 		mds.printMatrix();
+	}
+
+	@Override
+	protected void simulate() {
+		// TODO Auto-generated method stub
+		int kMax =1000;
+		for(int i=0;i<kMax;i++)
+		{
+			this.embedder.iteration();
+		}
+	}
+
+	@Override
+	public Point getPosition(int index) {
+		// TODO Auto-generated method stub
+		Point p = new Point((int)this.embedder.getX(index),(int)this.embedder.getY(index));
+		return p;
 	}
 	
 }

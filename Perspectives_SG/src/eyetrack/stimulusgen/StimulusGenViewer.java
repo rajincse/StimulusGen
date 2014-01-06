@@ -2,6 +2,7 @@ package eyetrack.stimulusgen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import eyetrack.shapematch.AbstractBoundedShape;
@@ -31,22 +32,22 @@ public class StimulusGenViewer extends Viewer2D{
 		this.loadProperties();
 		
 		this.shapeList = new ArrayList<AbstractBoundedShape>();
-		init();
+		positionLayout();
 	}
 	
 	private void loadProperties()
 	{
 		try {
 			Property<IntegerPropertyType> minDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_MIN_DISTANCE);
-			minDistance.setValue(new IntegerPropertyType(10));
+			minDistance.setValue(new IntegerPropertyType(50));
 			this.addProperty(minDistance);
 			
 			Property<IntegerPropertyType> maxDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_MAX_DISTANCE);
-			maxDistance.setValue(new IntegerPropertyType(20));
+			maxDistance.setValue(new IntegerPropertyType(100));
 			this.addProperty(maxDistance);
 			
 			Property<IntegerPropertyType> size = new Property<IntegerPropertyType>(PROPERTY_NAME_SIZE);
-			size.setValue(new IntegerPropertyType(20));
+			size.setValue(new IntegerPropertyType(10));
 			this.addProperty(size);
 			
 			Property<ColorPropertyType> forecolor = new Property<ColorPropertyType>(PROPERTY_NAME_FORECOLOR);
@@ -77,32 +78,32 @@ public class StimulusGenViewer extends Viewer2D{
 		Property<ColorPropertyType> prop = this.getProperty(name);
 		return prop.getValue().colorValue();
 	}
-	private void init()
+	private void positionLayout()
 	{
 		int minDist = this.getPropertyIntValue(PROPERTY_NAME_MIN_DISTANCE);
 		int maxDist = this.getPropertyIntValue(PROPERTY_NAME_MAX_DISTANCE);
 		int size = this.getPropertyIntValue(PROPERTY_NAME_SIZE);
 		Color color  = this.getPropertyColorValue(PROPERTY_NAME_FORECOLOR);
 		int objectCount = this.getPropertyIntValue(PROPERTY_NAME_OBJECT_COUNT);
-		MDSPlotter plotter = this.getPlotter(objectCount, minDist, maxDist);
+		StimulusGenPlotter plotter = this.getPlotter(objectCount, minDist, maxDist);
 		this.shapeList.clear();
 		for(int i=0;i<objectCount;i++)
 		{
-			int x = (int)plotter.getEmbedder().getX(i)*60;
-			int y = (int)plotter.getEmbedder().getY(i)*60;
-			OvalShape circle = new OvalShape(x, y, size, size, color, true);
+			Point p = plotter.getPosition(i);
+			OvalShape circle = new OvalShape(p.x, p.y, size, size, color, true);
 			this.shapeList.add(circle);
 		}
 		
 	}
-	private MDSPlotter getPlotter(int objectCount, int minDistance, int maxDistance)
+	private StimulusGenPlotter getPlotter(int objectCount, int minDistance, int maxDistance)
 	{
-		MDSPlotter plotter = new MDSPlotter(objectCount, minDistance, maxDistance);
+		StimulusGenPlotter plotter = new RadialDistancePlotter(objectCount, minDistance, maxDistance);
+		
 		return plotter;
 	}
 	public <T extends perspectives.PropertyType> void propertyUpdated(Property p, T newvalue)
 	{
-		init();
+		positionLayout();
 	}
 	@Override
 	public Color backgroundColor() {
