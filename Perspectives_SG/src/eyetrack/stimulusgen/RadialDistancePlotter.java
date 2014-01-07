@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class RadialDistancePlotter extends StimulusGenPlotter{
-
+	protected static final int ANGLE_DIVISION =30;
+	protected static final int INFINITY =1000;
 
 	protected ArrayList<Point> positions;
 	protected ArrayList<Point> shadowPositions;
@@ -86,9 +87,13 @@ public class RadialDistancePlotter extends StimulusGenPlotter{
 			{
 				Point p = this.shadowPositions.get(i);
 				double distance = comparingPoint.distance(p);
-				if(distance < minDistance || distance > maxDistance)
+				if(distance > maxDistance)
 				{
 					score++;
+				}
+				else if(distance < minDistance)
+				{
+					score = INFINITY;
 				}
 						
 			}

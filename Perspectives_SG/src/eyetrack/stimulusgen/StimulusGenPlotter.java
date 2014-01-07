@@ -3,7 +3,7 @@ package eyetrack.stimulusgen;
 import java.awt.Point;
 
 public abstract class StimulusGenPlotter {
-	protected static final int ANGLE_DIVISION =30;
+	
 	
 	protected int objectCount;
 	protected int maxDistance;
