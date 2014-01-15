@@ -75,7 +75,7 @@ public class RadialDistancePlotter extends StimulusGenPlotter{
 		double aspectRatioScore = this.getAspectRatioScore();
 		int distanceScore = this.getDistanceScore(index);
 				
-		return aspectRatioScore * distanceScore;
+		return (1./aspectRatioScore)*(1./aspectRatioScore) * distanceScore;
 	}
 	private int getDistanceScore(int index)
 	{
