@@ -104,7 +104,7 @@ public class NoisyBackground {
 		
 		if(this.image != null)
 		{
-			g.drawImage(this.image, null, 100, 100);
+			g.drawImage(this.image, null, 0, 0);
 		}
 	}
 	
