@@ -22,16 +22,26 @@ public class StimulusGenViewer extends Viewer2D{
 	public static final String PROPERTY_NAME_FORECOLOR = "Forecolor";
 	public static final String PROPERTY_NAME_BACKGROUND_COLOR = "BackgroundColor";
 	public static final String PROPERTY_NAME_OBJECT_COUNT = "Object Count";
+	//noisy background stuffs
+	public static final String PROPERTY_NAME_BACKGROUND_COPIES_COUNT = "Background.Copies";
+	public static final String PROPERTY_NAME_BACKGROUND_MIN_DISTANCE = "Background.Minimum Distance";
+	public static final String PROPERTY_NAME_BACKGROUND_MAX_DISTANCE = "Background.Maximum Distance";
+	public static final String PROPERTY_NAME_BACKGROUND_MIN_ROTATION = "Background.Minimum Rotation";
+	public static final String PROPERTY_NAME_BACKGROUND_MAX_ROTATION = "Background.Maximum Rotation";
+	public static final String PROPERTY_NAME_BACKGROUND_BLURRING = "Background.Blurring";
 	
-	private ArrayList<AbstractBoundedShape> shapeList;
 	
+	
+	private Stimulus stimuls;
+	private NoisyBackground noisyBackground;
 	
 	public StimulusGenViewer(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 		this.loadProperties();
 		
-		this.shapeList = new ArrayList<AbstractBoundedShape>();
+		this.stimuls =null;
+		this.noisyBackground = null;
 		positionLayout();
 	}
 	
@@ -62,6 +72,30 @@ public class StimulusGenViewer extends Viewer2D{
 			objectCount.setValue(new IntegerPropertyType(10));
 			this.addProperty(objectCount);
 			
+			Property<IntegerPropertyType> backgroundCopies = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_COPIES_COUNT);
+			backgroundCopies.setValue(new IntegerPropertyType(4));
+			this.addProperty(backgroundCopies);
+			
+			Property<IntegerPropertyType> backgroundMinDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_MIN_DISTANCE);
+			backgroundMinDistance.setValue(new IntegerPropertyType(200));
+			this.addProperty(backgroundMinDistance);
+			
+			Property<IntegerPropertyType> backgroundMaxDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_MAX_DISTANCE);
+			backgroundMaxDistance.setValue(new IntegerPropertyType(500));
+			this.addProperty(backgroundMaxDistance);
+			
+			Property<IntegerPropertyType> backgroundMinRotation = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_MIN_ROTATION);
+			backgroundMinRotation.setValue(new IntegerPropertyType(10));
+			this.addProperty(backgroundMinRotation);
+			
+			Property<IntegerPropertyType> backgroundMaxRotation = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_MAX_ROTATION);
+			backgroundMaxRotation.setValue(new IntegerPropertyType(90));
+			this.addProperty(backgroundMaxRotation);
+			
+			Property<IntegerPropertyType> backgroundBlurring = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_BLURRING);
+			backgroundBlurring.setValue(new IntegerPropertyType(10));
+			this.addProperty(backgroundBlurring);
+			
 		}
 		catch (Exception e) {		
 			e.printStackTrace();
@@ -80,21 +114,33 @@ public class StimulusGenViewer extends Viewer2D{
 	}
 	private void positionLayout()
 	{
+		
 		int minDist = this.getPropertyIntValue(PROPERTY_NAME_MIN_DISTANCE);
 		int maxDist = this.getPropertyIntValue(PROPERTY_NAME_MAX_DISTANCE);
 		int size = this.getPropertyIntValue(PROPERTY_NAME_SIZE);
 		Color color  = this.getPropertyColorValue(PROPERTY_NAME_FORECOLOR);
 		int objectCount = this.getPropertyIntValue(PROPERTY_NAME_OBJECT_COUNT);
 		StimulusGenPlotter plotter = this.getPlotter(objectCount, minDist, maxDist);
-		this.shapeList.clear();
-		for(int i=0;i<objectCount;i++)
-		{
-			Point p = plotter.getPosition(i);
-			OvalShape circle = new OvalShape(p.x, p.y, size, size, color, true);
-			this.shapeList.add(circle);
-		}
+
+		this.stimuls = Stimulus.createStimulus(new Point(150,100),30,plotter, size, color);
+		
+		int copies =  this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_COPIES_COUNT);
+		int backgroundMinDist = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MIN_DISTANCE);
+		int backgroundMaxDist = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MAX_DISTANCE);
+		int minRotation = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MIN_ROTATION);
+		int maxRotation = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MAX_ROTATION);
+		
+		this.noisyBackground = new 
+				NoisyBackground(
+						plotter, 
+						copies, 
+						backgroundMinDist, backgroundMaxDist, 
+						minRotation, maxRotation, 
+						size,
+						color);
 		
 	}
+
 	private StimulusGenPlotter getPlotter(int objectCount, int minDistance, int maxDistance)
 	{
 		StimulusGenPlotter plotter = new RadialDistancePlotter(objectCount, minDistance, maxDistance);
@@ -115,10 +161,15 @@ public class StimulusGenViewer extends Viewer2D{
 	@Override
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
-		for(AbstractBoundedShape shape:this.shapeList)
+		if(this.noisyBackground != null)
 		{
-			shape.render(g);
+			this.noisyBackground.render(g);
 		}
+		if(stimuls != null)			
+		{
+			stimuls.render(g);
+		}
+		
 	}
 
 	@Override

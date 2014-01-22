@@ -24,6 +24,11 @@ public abstract class StimulusGenPlotter {
 
 	public abstract Point getPosition(int index);
 	
+	public int getObjectCount()
+	{
+		return this.objectCount;
+	}
+	
 	
 	
 	
