@@ -1,9 +1,7 @@
 package eyetrack.stimulusgen;
 
-import eyetrack.shapematch.task.ShapeTaskViewer;
 import perspectives.Viewer;
 import perspectives.ViewerFactory;
-import perspectives.ViewerFactory.RequiredData;
 
 public class StimulusGenViewerFactory extends ViewerFactory {
 

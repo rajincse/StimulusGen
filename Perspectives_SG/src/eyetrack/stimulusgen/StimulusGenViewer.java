@@ -3,17 +3,10 @@ package eyetrack.stimulusgen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.ArrayList;
-
-import eyetrack.shapematch.AbstractBoundedShape;
-import eyetrack.shapematch.AbstractShape;
-import eyetrack.shapematch.OvalShape;
-
 import perspectives.Property;
 import perspectives.Viewer2D;
 import perspectives.DefaultProperties.ColorPropertyType;
 import perspectives.DefaultProperties.IntegerPropertyType;
-import perspectives.DefaultProperties.PercentPropertyType;
 
 public class StimulusGenViewer extends Viewer2D{
 	public static final String PROPERTY_NAME_MIN_DISTANCE = "Distance.Minimum Distance";
@@ -57,7 +50,7 @@ public class StimulusGenViewer extends Viewer2D{
 			this.addProperty(maxDistance);
 			
 			Property<IntegerPropertyType> size = new Property<IntegerPropertyType>(PROPERTY_NAME_SIZE);
-			size.setValue(new IntegerPropertyType(10));
+			size.setValue(new IntegerPropertyType(20));
 			this.addProperty(size);
 			
 			Property<ColorPropertyType> forecolor = new Property<ColorPropertyType>(PROPERTY_NAME_FORECOLOR);
@@ -93,7 +86,7 @@ public class StimulusGenViewer extends Viewer2D{
 			this.addProperty(backgroundMaxRotation);
 			
 			Property<IntegerPropertyType> backgroundBlurring = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_BLURRING);
-			backgroundBlurring.setValue(new IntegerPropertyType(10));
+			backgroundBlurring.setValue(new IntegerPropertyType(3));
 			this.addProperty(backgroundBlurring);
 			
 		}
@@ -129,6 +122,8 @@ public class StimulusGenViewer extends Viewer2D{
 		int backgroundMaxDist = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MAX_DISTANCE);
 		int minRotation = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MIN_ROTATION);
 		int maxRotation = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MAX_ROTATION);
+		int blurringAmount = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_BLURRING);
+		
 		
 		this.noisyBackground = new 
 				NoisyBackground(
@@ -137,7 +132,9 @@ public class StimulusGenViewer extends Viewer2D{
 						backgroundMinDist, backgroundMaxDist, 
 						minRotation, maxRotation, 
 						size,
-						color);
+						color,
+						blurringAmount,
+						3000,3000);
 		
 	}
 
@@ -161,7 +158,7 @@ public class StimulusGenViewer extends Viewer2D{
 	@Override
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
-		if(this.noisyBackground != null)
+		if(this.noisyBackground != null )
 		{
 			this.noisyBackground.render(g);
 		}
@@ -172,6 +169,7 @@ public class StimulusGenViewer extends Viewer2D{
 		
 	}
 
+	
 	@Override
 	public void simulate() {
 		// TODO Auto-generated method stub
