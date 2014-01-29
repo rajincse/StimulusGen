@@ -64,7 +64,7 @@ public class BlurringHelper {
 		int averageAlpha = sumAlpha/ count;
 		int averageRed = sumRed/ count;
 		int averageGreen = sumGreen / count;
-		int averageBlue = sumGreen / count;
+		int averageBlue = sumBlue / count;
 		int rgb =averageAlpha;
 		rgb =( rgb << 8 ) | ( averageRed & 0x00FF);
 		rgb =( rgb << 8 ) | ( averageGreen & 0x00FF);

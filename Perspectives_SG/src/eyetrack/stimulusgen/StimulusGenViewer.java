@@ -92,11 +92,11 @@ public class StimulusGenViewer extends Viewer2D{
 			this.addProperty(backgroundBlurring);
 			
 			Property<IntegerPropertyType> backgroundWidth= new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_WIDTH);
-			backgroundWidth.setValue(new IntegerPropertyType(500));
+			backgroundWidth.setValue(new IntegerPropertyType(1260));
 			this.addProperty(backgroundWidth);
 			
 			Property<IntegerPropertyType> backgroundHeight= new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_HEIGHT);
-			backgroundHeight.setValue(new IntegerPropertyType(500));
+			backgroundHeight.setValue(new IntegerPropertyType(800));
 			this.addProperty(backgroundHeight);
 			
 		}
