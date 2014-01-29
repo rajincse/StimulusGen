@@ -22,6 +22,8 @@ public class StimulusGenViewer extends Viewer2D{
 	public static final String PROPERTY_NAME_BACKGROUND_MIN_ROTATION = "Background.Minimum Rotation";
 	public static final String PROPERTY_NAME_BACKGROUND_MAX_ROTATION = "Background.Maximum Rotation";
 	public static final String PROPERTY_NAME_BACKGROUND_BLURRING = "Background.Blurring";
+	public static final String PROPERTY_NAME_BACKGROUND_WIDTH = "Background.Width";
+	public static final String PROPERTY_NAME_BACKGROUND_HEIGHT = "Background.Height";
 	
 	
 	
@@ -62,11 +64,11 @@ public class StimulusGenViewer extends Viewer2D{
 			this.addProperty(backgroundColor);
 			
 			Property<IntegerPropertyType> objectCount = new Property<IntegerPropertyType>(PROPERTY_NAME_OBJECT_COUNT);
-			objectCount.setValue(new IntegerPropertyType(10));
+			objectCount.setValue(new IntegerPropertyType(15));
 			this.addProperty(objectCount);
 			
 			Property<IntegerPropertyType> backgroundCopies = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_COPIES_COUNT);
-			backgroundCopies.setValue(new IntegerPropertyType(4));
+			backgroundCopies.setValue(new IntegerPropertyType(11));
 			this.addProperty(backgroundCopies);
 			
 			Property<IntegerPropertyType> backgroundMinDistance = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_MIN_DISTANCE);
@@ -86,8 +88,16 @@ public class StimulusGenViewer extends Viewer2D{
 			this.addProperty(backgroundMaxRotation);
 			
 			Property<IntegerPropertyType> backgroundBlurring = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_BLURRING);
-			backgroundBlurring.setValue(new IntegerPropertyType(3));
+			backgroundBlurring.setValue(new IntegerPropertyType(5));
 			this.addProperty(backgroundBlurring);
+			
+			Property<IntegerPropertyType> backgroundWidth= new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_WIDTH);
+			backgroundWidth.setValue(new IntegerPropertyType(500));
+			this.addProperty(backgroundWidth);
+			
+			Property<IntegerPropertyType> backgroundHeight= new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_HEIGHT);
+			backgroundHeight.setValue(new IntegerPropertyType(500));
+			this.addProperty(backgroundHeight);
 			
 		}
 		catch (Exception e) {		
@@ -123,6 +133,8 @@ public class StimulusGenViewer extends Viewer2D{
 		int minRotation = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MIN_ROTATION);
 		int maxRotation = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MAX_ROTATION);
 		int blurringAmount = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_BLURRING);
+		int backgroundWidth = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_WIDTH);
+		int backgroundHeight = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_HEIGHT);
 		
 		
 		this.noisyBackground = new 
@@ -134,7 +146,7 @@ public class StimulusGenViewer extends Viewer2D{
 						size,
 						color,
 						blurringAmount,
-						3000,3000);
+						backgroundWidth,backgroundHeight);
 		
 	}
 

@@ -13,6 +13,7 @@ public class NoisyBackground {
 	private ArrayList<Stimulus> stimulusList;
 	private StimulusGenPlotter shapePlotter;
 	private BufferedImage image;
+	private BlurringHelper blurringHelper;
 	
 	public NoisyBackground(StimulusGenPlotter shapePlotter, 
 							int stimuluscount,
@@ -28,6 +29,7 @@ public class NoisyBackground {
 		this.shapePlotter = shapePlotter;
 		this.stimulusList = new ArrayList<Stimulus>();
 		this.image = null;
+		this.blurringHelper = new BlurringHelper();
 		
 		this.configure(stimuluscount,
 				minDistance, maxDistance,
@@ -60,30 +62,14 @@ public class NoisyBackground {
 			Stimulus stimulus = Stimulus.createStimulus(position, angle, this.shapePlotter, objectSize, objectColor);
 			this.stimulusList.add(stimulus);
 		}
+		//System.out.println("width, height="+width+", "+height);
 		this.image=new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g =image.createGraphics();
 		this.renderToImage(g);
-		this.image = getBlurredImage(this.image, blurringAmount);
+		this.image = blurringHelper.getBlurredImage(this.image, blurringAmount);
 	}
-	public BufferedImage getBlurredImage(BufferedImage sourceImage,int blurringAmount)
-	{
-		BufferedImage dstImage = null;
-		float[] matrix  = this.getBlurringMatrix(blurringAmount);
-		Kernel kernel = new Kernel(blurringAmount, blurringAmount, matrix);
-		ConvolveOp op = new ConvolveOp(kernel);
-		dstImage = op.filter(sourceImage, dstImage);
-		return dstImage;
-	}
-	private float[] getBlurringMatrix(int dimension)
-	{
-		float[] matrix = new float[dimension * dimension];
-		for(int i=0;i<matrix.length;i++)
-		{
-			matrix[i] =(float) 1.0f/ matrix.length;
-		}
-
-		return matrix;
-	}
+	
+	
 	
 	private StimulusGenPlotter getPlotter(int objectCount, int minDistance, int maxDistance)
 	{
@@ -101,6 +87,7 @@ public class NoisyBackground {
 	}
 	public void render(Graphics2D g)
 	{
+		
 		
 		if(this.image != null)
 		{
