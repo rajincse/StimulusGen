@@ -14,6 +14,7 @@ public class StimulusGenViewer extends Viewer2D{
 	public static final String PROPERTY_NAME_SIZE = "Size";
 	public static final String PROPERTY_NAME_FORECOLOR = "Forecolor";
 	public static final String PROPERTY_NAME_BACKGROUND_COLOR = "BackgroundColor";
+	public static final String PROPERTY_NAME_COLOR_DIFFERENCE = "ColorDifference";
 	public static final String PROPERTY_NAME_OBJECT_COUNT = "Object Count";
 	//noisy background stuffs
 	public static final String PROPERTY_NAME_BACKGROUND_COPIES_COUNT = "Background.Copies";
@@ -29,14 +30,16 @@ public class StimulusGenViewer extends Viewer2D{
 	
 	private Stimulus stimuls;
 	private NoisyBackground noisyBackground;
-	
+	private LabColorGenerator[] labs ;
 	public StimulusGenViewer(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
-		this.loadProperties();
+		
 		
 		this.stimuls =null;
 		this.noisyBackground = null;
+		this.labs = LabColorGenerator.generate(10);
+		this.loadProperties();
 		positionLayout();
 	}
 	
@@ -56,16 +59,22 @@ public class StimulusGenViewer extends Viewer2D{
 			this.addProperty(size);
 			
 			Property<ColorPropertyType> forecolor = new Property<ColorPropertyType>(PROPERTY_NAME_FORECOLOR);
-			forecolor.setValue(new ColorPropertyType(new Color(50,50,50)));
+			forecolor.setValue(new ColorPropertyType(this.labs[0].getColor()));
 			this.addProperty(forecolor);
 			
 			Property<ColorPropertyType> backgroundColor = new Property<ColorPropertyType>(PROPERTY_NAME_BACKGROUND_COLOR);
 			backgroundColor.setValue(new ColorPropertyType(new Color(250,250,250)));
 			this.addProperty(backgroundColor);
 			
+			Property<IntegerPropertyType> colorDifference = new Property<IntegerPropertyType>(PROPERTY_NAME_COLOR_DIFFERENCE);
+			colorDifference.setValue(new IntegerPropertyType(7));
+			this.addProperty(colorDifference);
+			
+			
 			Property<IntegerPropertyType> objectCount = new Property<IntegerPropertyType>(PROPERTY_NAME_OBJECT_COUNT);
 			objectCount.setValue(new IntegerPropertyType(15));
 			this.addProperty(objectCount);
+			
 			
 			Property<IntegerPropertyType> backgroundCopies = new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_COPIES_COUNT);
 			backgroundCopies.setValue(new IntegerPropertyType(11));
@@ -92,11 +101,11 @@ public class StimulusGenViewer extends Viewer2D{
 			this.addProperty(backgroundBlurring);
 			
 			Property<IntegerPropertyType> backgroundWidth= new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_WIDTH);
-			backgroundWidth.setValue(new IntegerPropertyType(1260));
+			backgroundWidth.setValue(new IntegerPropertyType(800));
 			this.addProperty(backgroundWidth);
 			
 			Property<IntegerPropertyType> backgroundHeight= new Property<IntegerPropertyType>(PROPERTY_NAME_BACKGROUND_HEIGHT);
-			backgroundHeight.setValue(new IntegerPropertyType(800));
+			backgroundHeight.setValue(new IntegerPropertyType(600));
 			this.addProperty(backgroundHeight);
 			
 		}
@@ -163,8 +172,9 @@ public class StimulusGenViewer extends Viewer2D{
 	@Override
 	public Color backgroundColor() {
 		// TODO Auto-generated method stub
-		Property<ColorPropertyType> backgroundColorProperty = this.getProperty(PROPERTY_NAME_BACKGROUND_COLOR);
-		return backgroundColorProperty.getValue().colorValue();
+		Property<IntegerPropertyType> colorDiff = this.getProperty(PROPERTY_NAME_COLOR_DIFFERENCE);
+		Color c = labs[colorDiff.getValue().intValue()].getColor();
+		return c;
 	}
 
 	@Override
