@@ -134,7 +134,7 @@ public class StimulusGenViewer extends Viewer2D{
 		int objectCount = this.getPropertyIntValue(PROPERTY_NAME_OBJECT_COUNT);
 		StimulusGenPlotter plotter = this.getPlotter(objectCount, minDist, maxDist);
 
-		this.stimuls = Stimulus.createStimulus(new Point(150,100),30,plotter, size, color);
+		this.stimuls = DotStimulus.createStimulus(new Point(150,100),30,plotter, size, color);
 		
 		int copies =  this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_COPIES_COUNT);
 		int backgroundMinDist = this.getPropertyIntValue(PROPERTY_NAME_BACKGROUND_MIN_DISTANCE);
@@ -173,7 +173,7 @@ public class StimulusGenViewer extends Viewer2D{
 	public Color backgroundColor() {
 		// TODO Auto-generated method stub
 		Property<IntegerPropertyType> colorDiff = this.getProperty(PROPERTY_NAME_COLOR_DIFFERENCE);
-		Color c = labs[colorDiff.getValue().intValue()].getColor();
+		Color c = labs[colorDiff.getValue().intValue() % labs.length].getColor();
 		return c;
 	}
 

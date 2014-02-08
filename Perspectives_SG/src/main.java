@@ -32,6 +32,7 @@ import util.ImageTilerFactory;
 import data.*;
 import eyetrack.shapematch.ShapeViewerFactory;
 import eyetrack.shapematch.task.ShapeTaskViewerFactory;
+import eyetrack.stimulusgen.SineWaveStimulusViewerFactory;
 import eyetrack.stimulusgen.StimulusGenViewerFactory;
 
 
@@ -74,6 +75,8 @@ public class main {
 	      e.registerViewerFactory(new ShapeTaskViewerFactory());
 	      
 	      e.registerViewerFactory(new StimulusGenViewerFactory());
+	      
+	      e.registerViewerFactory(new SineWaveStimulusViewerFactory());
 	      
 	      if(args.length == 6 && args[0].equalsIgnoreCase("-view") && args[2].equalsIgnoreCase("-edgefile") && args[4].equalsIgnoreCase("-positionfile"))
 	      {

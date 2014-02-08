@@ -59,7 +59,7 @@ public class NoisyBackground {
 		{
 			Point position = stimulusPlotter.getPosition(i);
 			double angle = Math.abs(random.nextInt()%(maxRotation-minRotation))+minRotation;
-			Stimulus stimulus = Stimulus.createStimulus(position, angle, this.shapePlotter, objectSize, objectColor);
+			Stimulus stimulus =DotStimulus.createStimulus(position, angle, this.shapePlotter, objectSize, objectColor);
 			this.stimulusList.add(stimulus);
 		}
 		//System.out.println("width, height="+width+", "+height);

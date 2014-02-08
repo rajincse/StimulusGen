@@ -8,24 +8,17 @@ import java.util.ArrayList;
 import eyetrack.shapematch.AbstractBoundedShape;
 import eyetrack.shapematch.OvalShape;
 
-public abstract class Stimulus {
-	
-	protected Point origin;
-	protected double angle;
-	protected ArrayList<AbstractBoundedShape> shapeList;
+public class DotStimulus extends Stimulus{
 
-	public Stimulus()
+
+	public DotStimulus()
 	{
-		this.origin = new Point(0,0);
-		this.angle =0.0;
-		this.shapeList = new ArrayList<AbstractBoundedShape>();
+		super();
 	}
 	
-	public Stimulus(Point origin,double angle)
+	public DotStimulus(Point origin,double angle)
 	{
-		this.origin =origin;
-		this.angle =angle;
-		this.shapeList = new ArrayList<AbstractBoundedShape>();
+		super(origin, angle);
 	}
 
 	public Point getOrigin() {
@@ -71,5 +64,40 @@ public abstract class Stimulus {
 			shape.setY(p.y);
 		}
 	}
-	public abstract void render(Graphics2D g);
+	public static Stimulus createStimulus(StimulusGenPlotter plotter, int objectSize, Color objectColor)
+	{
+		Stimulus stimulus = new DotStimulus();
+		stimulus.getShapeList().clear();
+		int objectCount = plotter.getObjectCount();
+		for(int i=0;i<objectCount;i++)
+		{
+			Point p = stimulus.getTransformedPoint(plotter.getPosition(i));
+			OvalShape circle = new OvalShape(p.x, p.y, objectSize, objectSize, objectColor, true);			
+			stimulus.getShapeList().add(circle);
+		}
+		
+		return stimulus;
+	}
+	public static Stimulus createStimulus(Point origin,double angle, StimulusGenPlotter plotter, int objectSize, Color objectColor)
+	{
+		Stimulus stimulus = new DotStimulus(origin, angle);
+		stimulus.getShapeList().clear();
+		int objectCount = plotter.getObjectCount();
+		for(int i=0;i<objectCount;i++)
+		{
+			Point p = stimulus.getTransformedPoint(plotter.getPosition(i));
+			OvalShape circle = new OvalShape(p.x, p.y, objectSize, objectSize, objectColor, true);			
+			stimulus.getShapeList().add(circle);
+		}
+		
+		return stimulus;
+	}
+	
+	public void render(Graphics2D g)
+	{
+		for(AbstractBoundedShape shape:this.shapeList)
+		{
+			shape.render(g);
+		}
+	}
 }

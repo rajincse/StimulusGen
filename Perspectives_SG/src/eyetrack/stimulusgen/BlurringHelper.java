@@ -7,7 +7,8 @@ import java.awt.image.Kernel;
 public class BlurringHelper {
 	public BufferedImage getBlurredImage(BufferedImage sourceImage,int blurringAmount)
 	{		
-		return this.getRadialDistanceBlurredImage(sourceImage, blurringAmount);
+		return sourceImage;
+		//return this.getRadialDistanceBlurredImage(sourceImage, blurringAmount);
 	}
 	private BufferedImage getRadialDistanceBlurredImage(BufferedImage sourceImage,int blurringAmount)
 	{
@@ -18,7 +19,7 @@ public class BlurringHelper {
 				int rgb = sourceImage.getRGB(x, y);
 				int blurredRGB = this.getBlurredRGB(sourceImage, x, y, blurringAmount);
 				sourceImage.setRGB(x, y,blurredRGB);
-				//System.out.println("("+x+","+y+")=>("+Integer.toHexString(rgb)+","+Integer.toHexString(blurredRGB)+")");
+				System.out.println("("+x+","+y+")=>("+Integer.toHexString(rgb)+","+Integer.toHexString(blurredRGB)+")");
 			}
 		}
 		return sourceImage;
