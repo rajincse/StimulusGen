@@ -16,9 +16,9 @@ public class SineWaveStimulus extends Stimulus{
 		super();
 	}
 	
-	public SineWaveStimulus(Point origin,double angle)
+	public SineWaveStimulus(Point origin)
 	{
-		super(origin, angle);
+		super(origin, 0.0);
 	}
 	public Point getTransformedPoint(Point p)
 	{
@@ -28,17 +28,22 @@ public class SineWaveStimulus extends Stimulus{
 		return new Point(x,y);
 	}
 
-	public static Stimulus createStimulus(Point origin,double angle, StimulusGenPlotter plotter, int objectSize, Color objectColor)
+	public static Stimulus createStimulus(
+			Point origin,
+			StimulusGenPlotter plotter, 
+			Color objectColor, 
+			Period.Double amplitude,
+			Period.Double frequency,
+			Period.Double rotation)
 	{
-		Stimulus stimulus = new SineWaveStimulus(origin, angle);
+		Stimulus stimulus = new SineWaveStimulus(origin);
 		stimulus.getShapeList().clear();
 		int objectCount = plotter.getObjectCount();
 		Random rand = new Random();
 		for(int i=0;i<objectCount;i++)
 		{
 			Point p = stimulus.getTransformedPoint(plotter.getPosition(i));
-			int rotation =Math.abs( rand.nextInt() %360);
-			SineWaveShape sine = new SineWaveShape(p.x, p.y, objectSize, objectColor, 100, 0.1, rotation);	
+			SineWaveShape sine = new SineWaveShape(p.x, p.y,  objectColor, amplitude.getRandom(), frequency.getRandom(), rotation.getRandom());	
 			stimulus.getShapeList().add(sine);
 		}
 		

@@ -42,13 +42,13 @@ public class LabColorGenerator {
 		double a1 = 127;
 		double b1 = -128;
 		*/
-		labs[0] = new LabColorGenerator( 14.5,127,-128);
+		labs[0] = new LabColorGenerator( 14.5,-128,-127);
 		/*
 		double l2 = 90;
 		double a2 = -126;
 		double b2 = 125;
 		*/
-		labs[labs.length-1] = new LabColorGenerator(90,-126,125);
+		labs[labs.length-1] = new LabColorGenerator(90,125,126);
 		
 //		System.out.println(labs[0]);
 //		System.out.println(labs[9]);
