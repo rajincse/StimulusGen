@@ -21,6 +21,7 @@ import ParallelCoord.ParallelCoordinateViewerFactory;
 import perspectives.*;
 import perspectives.DefaultProperties.*;
 
+import stress.StressViewerFactory;
 import tree.*;
 import util.EyeCatcherFactory;
 import util.EyeExperimentFactory;
@@ -32,6 +33,7 @@ import util.ImageTilerFactory;
 import data.*;
 import eyetrack.shapematch.ShapeViewerFactory;
 import eyetrack.shapematch.task.ShapeTaskViewerFactory;
+import eyetrack.stimulusgen.CurveViewerFactory;
 import eyetrack.stimulusgen.SineWaveStimulusViewerFactory;
 import eyetrack.stimulusgen.StimulusGenViewerFactory;
 
@@ -77,6 +79,10 @@ public class main {
 	      e.registerViewerFactory(new StimulusGenViewerFactory());
 	      
 	      e.registerViewerFactory(new SineWaveStimulusViewerFactory());
+	      
+	      e.registerViewerFactory(new StressViewerFactory());
+	      
+	      e.registerViewerFactory(new CurveViewerFactory());
 	      
 	      if(args.length == 6 && args[0].equalsIgnoreCase("-view") && args[2].equalsIgnoreCase("-edgefile") && args[4].equalsIgnoreCase("-positionfile"))
 	      {
