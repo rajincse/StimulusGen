@@ -54,10 +54,10 @@ public class main {
 //	      
 //	      e.registerViewerFactory(new HierarchicalClusteringViewerFactory());
 //	      
-	      e.registerViewerFactory(new GraphViewerFactory());
-	      
-	      e.registerViewerFactory(new ViewFocusGraphViewerFactory());
-	      
+//	      e.registerViewerFactory(new GraphViewerFactory());
+//	      
+//	      e.registerViewerFactory(new ViewFocusGraphViewerFactory());
+//	      
 //	      e.registerViewerFactory(new ImageTilerFactory());
 //	      
 //	      e.registerViewerFactory(new HotspotsFactory());
@@ -72,15 +72,15 @@ public class main {
 //	      
 //	      e.registerViewerFactory(new EyeExperimentFactory());
 	      
-	      e.registerViewerFactory(new ShapeViewerFactory());
-	      
-	      e.registerViewerFactory(new ShapeTaskViewerFactory());
-	      
-	      e.registerViewerFactory(new StimulusGenViewerFactory());
-	      
-	      e.registerViewerFactory(new SineWaveStimulusViewerFactory());
-	      
-	      e.registerViewerFactory(new StressViewerFactory());
+//	      e.registerViewerFactory(new ShapeViewerFactory());
+//	      
+//	      e.registerViewerFactory(new ShapeTaskViewerFactory());
+//	      
+//	      e.registerViewerFactory(new StimulusGenViewerFactory());
+//	      
+//	      e.registerViewerFactory(new SineWaveStimulusViewerFactory());
+//	      
+//	      e.registerViewerFactory(new StressViewerFactory());
 	      
 	      e.registerViewerFactory(new CurveViewerFactory());
 	      

@@ -17,7 +17,8 @@ import util.Util;
 public class CurveViewer extends Viewer2D{
 	public static final String PROPERTY_NAME_MIN_DISTANCE = "Distance.Minimum Distance";
 	public static final String PROPERTY_NAME_MAX_DISTANCE = "Distance.Maximum Distance";
-	public static final String PROPERTY_NAME_OBJECT_COUNT = "Object Count";
+	public static final String PROPERTY_NAME_CONTROL_POINT_COUNT = "Control Point Count";
+	public static final String PROPERTY_NAME_CURVE_COUNT = "Curve Count";
 	
 	public static final String PROPERTY_NAME_COLOR1 = "Color1";
 	public static final String PROPERTY_NAME_COLOR2 = "Color2";
@@ -25,9 +26,7 @@ public class CurveViewer extends Viewer2D{
 	public static final String PROPERTY_NAME_SEGMENT2 = "Segment2";
 	
 	
-
-	private int []curveX;
-	private int []curveY;
+	private CurveShape[] curves;
 	public CurveViewer(String name) {
 		super(name);
 		this.loadProperties();
@@ -46,9 +45,13 @@ public class CurveViewer extends Viewer2D{
 			maxDistance.setValue(new IntegerPropertyType(100));
 			this.addProperty(maxDistance);
 			
-			Property<IntegerPropertyType> objectCount = new Property<IntegerPropertyType>(PROPERTY_NAME_OBJECT_COUNT);
-			objectCount.setValue(new IntegerPropertyType(15));
-			this.addProperty(objectCount);
+			Property<IntegerPropertyType> controlPointCount = new Property<IntegerPropertyType>(PROPERTY_NAME_CONTROL_POINT_COUNT);
+			controlPointCount.setValue(new IntegerPropertyType(5));
+			this.addProperty(controlPointCount);
+			
+			Property<IntegerPropertyType> curveCount = new Property<IntegerPropertyType>(PROPERTY_NAME_CURVE_COUNT);
+			curveCount.setValue(new IntegerPropertyType(2));
+			this.addProperty(curveCount);
 			
 			Property<ColorPropertyType> color1 = new Property<ColorPropertyType>(PROPERTY_NAME_COLOR1);
 			color1.setValue(new ColorPropertyType(Color.blue));
@@ -93,24 +96,49 @@ public class CurveViewer extends Viewer2D{
 		
 		int minDist = this.getPropertyIntValue(PROPERTY_NAME_MIN_DISTANCE);
 		int maxDist = this.getPropertyIntValue(PROPERTY_NAME_MAX_DISTANCE);
-		int objectCount = this.getPropertyIntValue(PROPERTY_NAME_OBJECT_COUNT);
+		int controlPointCount = this.getPropertyIntValue(PROPERTY_NAME_CONTROL_POINT_COUNT);
+		int curveCount = this.getPropertyIntValue(PROPERTY_NAME_CURVE_COUNT);
+		Color color1=this.getPropertyColorValue(PROPERTY_NAME_COLOR1);
+		Color color2=this.getPropertyColorValue(PROPERTY_NAME_COLOR2);
+		double segment1=this.getPropertyDoubleValue(PROPERTY_NAME_SEGMENT1);
+		double segment2=this.getPropertyDoubleValue(PROPERTY_NAME_SEGMENT2);
 		
-		StimulusGenPlotter plotter = this.getPlotter(objectCount, minDist, maxDist);
-		this.createCurveXY(plotter);
+		this.curves = new CurveShape[curveCount];
+		Random random = new Random();
+		int selectionIndex = (int) Math.abs(random.nextInt()) % curveCount;
+		for(int i=0;i<this.curves.length;i++)
+		{
+			StimulusGenPlotter plotter = this.getPlotter(controlPointCount, minDist, maxDist);
+			Point[] curvePoints = this.createCurveXY(plotter);
+			boolean selection = false;
+			if(i == selectionIndex)
+			{
+				selection = true;
+			}
+			CurveShape curve = new CurveShape(curvePoints, color1, color2, segment1, segment2, selection);
+			this.curves[i] = curve;
+		}
+		
 	}
 	
-	private void createCurveXY(StimulusGenPlotter plotter)
+	private Point[] createCurveXY(StimulusGenPlotter plotter)
 	{
-	
+		
 		int controlLength=(plotter.getObjectCount())*3;
 		double[] control=new double[controlLength];
 		int minX =0;
 		int maxX = 1200;
 		int x=minX;
 		int step =( maxX - minX )/ plotter.getObjectCount();
-		int j=0;
+		int j=1;
 		Point p=null;
-		for(int i=0;i<controlLength;i=i+3){
+		//Randomize the first point
+		Random random= new Random();
+		x+= step;
+		control[0]=x;
+		control[1]=random.nextInt()%300;
+		control[2]=0;
+		for(int i=3;i<controlLength;i=i+3){
 			
 			if(j<plotter.getObjectCount()){
 				p =plotter.getPosition(j);
@@ -122,16 +150,15 @@ public class CurveViewer extends Viewer2D{
 			j++;
 		}
 		double[] spline = SplineFactory.createCatmullRom(control, 10);
-		curveX = new int[spline.length/3];
-		curveY = new int[spline.length/3];
+		Point[] curvePoints = new Point[spline.length/3];
 		
-		System.out.println("Start");
-		for (int k=0; k<curveX.length; k++)
+		for (int k=0; k<curvePoints.length; k++)
 		{
-			curveX[k] = (int)spline[3*k];
-			curveY[k] = (int)spline[3*k+1];
-			System.out.println("<Point x=\""+curveX[k]+"\" y=\""+curveY[k]+"\" />");
+			curvePoints[k] = new Point((int)spline[3*k], (int)spline[3*k+1]);
+//			System.out.println("<Point x=\""+curveX[k]+"\" y=\""+curveY[k]+"\" />");
 		}
+		
+		return curvePoints;
 	}
 			
 	private StimulusGenPlotter getPlotter(int objectCount, int minDistance, int maxDistance)
@@ -192,57 +219,19 @@ public class CurveViewer extends Viewer2D{
 	@Override
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
-		
-		
-		if(this.curveX != null && this.curveY != null)
+		if(this.curves != null)
 		{
-			Point p1 = new Point(this.curveX[0], this.curveY[0]);
-			Point p2 = null;
-			g.setColor(Color.red);
-			g.fillOval((p1.x)-5, (p1.y)-5, 10, 10);
-			Font font = new Font("Verdana", Font.BOLD, 16);
-			g.setFont(font);
-			g.drawString("A", (p1.x)-10, (p1.y)-10);
-			Color color1 = this.getPropertyColorValue(PROPERTY_NAME_COLOR1);
-			Color color2 = this.getPropertyColorValue(PROPERTY_NAME_COLOR2);
-
-			double segment1 = this.getPropertyDoubleValue(PROPERTY_NAME_SEGMENT1);
-			double segment2 = this.getPropertyDoubleValue(PROPERTY_NAME_SEGMENT2);
-			
-			int firstSegment = (int) ( this.curveX.length * segment1);
-			int secondSegment = (int) ( this.curveX.length * segment2);
-			
-			for(int i=1;i<this.curveX.length;i++)
-			{
-				if(i< firstSegment)
+			for(int i=0;i< this.curves.length;i++)
+			{	
+				if(this.curves[i] != null)
 				{
-					g.setColor(color1);
+					this.curves[i].render(g);
 				}
-				else if(i> secondSegment)
-				{
-					g.setColor(color2);
-				}
-				else
-				{
-					int m = i-firstSegment;
-					int n= secondSegment-i;
-
-					int r = (n * color1.getRed()+ m*color2.getRed())/(m+n);
-					int gr = (n * color1.getGreen()+ m*color2.getGreen())/(m+n);
-					int b = (n * color1.getBlue()+ m*color2.getBlue())/(m+n);
-					Color color3= new Color(r,gr,b);
-					g.setColor(color3);
-					
-				}
-				p2 = new Point(this.curveX[i],this.curveY[i]);
-				g.drawLine(p1.x, p1.y, p2.x, p2.y);
-				p1 = p2;
+				
 			}
-			g.setColor(Color.red);
-			g.fillOval((p2.x)-5, (p2.y)-5, 10, 10);
-			g.setFont(font);
-			g.drawString("B", (p2.x)+10, (p2.y)-10);
 		}
+		
+		
 		
 	}
 
